@@ -1,0 +1,23 @@
+name: "Hermes Runner: Every 15 Minutes"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *" # every 15 minutes
+
+permissions:
+  packages: "read"
+
+jobs:
+  runner:
+    runs-on: "ubuntu-latest"
+    container:
+      image: "ghcr.io/plutonomy-de/hermes_runner/every_15_minutes:latest"
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: "Hermes Runner"
+        uses: "plutonomy-de/actions/hermes_runner/execute@latest"
+        with:
+          hermes_runner_secrets: ${{ secrets.HERMES_RUNNER_SECRETS }}
